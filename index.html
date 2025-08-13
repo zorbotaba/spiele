@@ -5,139 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe mit KI</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .game-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-        
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-        }
-        
-        .game-mode {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .mode-btn {
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border: none;
-            border-radius: 5px;
-            background: #ecf0f1;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .mode-btn.active {
-            background: #3498db;
-            color: white;
-        }
-        
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 1.5rem auto;
-            max-width: 300px;
-        }
-        
-        .cell {
-            aspect-ratio: 1/1;
-            background-color: white;
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .cell:hover {
-            background-color: #f8f9fa;
-            border-color: #3498db;
-        }
-        
-        .cell.x {
-            color: #e74c3c;
-        }
-        
-        .cell.o {
-            color: #2ecc71;
-        }
-        
-        .status {
-            margin: 1rem 0;
-            font-size: 1.2rem;
-            font-weight: 600;
-            min-height: 2rem;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        button {
-            padding: 0.6rem 1.2rem;
-            font-size: 1rem;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #2980b9;
-        }
-        
-        button:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-        }
-        
-        .difficulty {
-            margin: 1rem 0;
-            display: none;
-        }
-        
-        .difficulty.active {
-            display: block;
-        }
-        
-        select {
-            padding: 0.5rem;
-            border-radius: 5px;
-            border: 1px solid #bdc3c7;
-        }
+      body {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        background: linear-gradient(to bottom, #c0f0b0, #a0d4f0);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px 0;
+        position: relative;
+      }
+    
+      h1 {
+        margin: 0 0 20px 0;
+        color: #1b5e20;
+        font-size: 2rem;
+        text-align: center;
+        text-shadow: 1px 1px 2px #80c0ff;
+        padding: 0 10px;
+      }
+    
+      .card-container {
+        perspective: 1000px;
+        width: 90%;
+        max-width: 450px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    
+      .card {
+        width: 100%;
+        padding: 25px;
+        background: linear-gradient(to bottom, #b2f2b2, #80d4ff);
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        text-align: center;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 20px;
+      }
+    
+      .card:hover {
+        transform: scale(1.05) rotate(-1deg);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+      }
+    
+      .category {
+        margin: 12px 0;
+        padding: 12px;
+        background: #80d4ff;
+        border-radius: 12px;
+        font-weight: bold;
+        color: #1b5e20;
+      }
+    
+      .button-container {
+        text-align: center;
+        width: 100%;
+      }
+    
+      button {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 12px;
+        background: #1b5e20;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin: 5px;
+        width: 48%;
+      }
+    
+      button:hover {
+        background: #145214;
+      }
+    
+      .credits {
+        position: fixed;
+        bottom: 10px;
+        right: 15px;
+        font-size: 0.9rem;
+        color: #1b5e20;
+      }
+    
+      /* Responsive Anpassungen */
+      @media (max-width: 600px) {
+        .card { font-size: 1rem; padding: 20px; }
+        h1 { font-size: 1.6rem; }
+        button { font-size: 1rem; padding: 10px; width: 100%; }
+        .category { font-size: 0.95rem; padding: 10px; }
+      }
+    
+      @media (min-width: 601px) and (max-width: 1024px) {
+        .card { font-size: 1.1rem; padding: 22px; }
+        h1 { font-size: 1.8rem; }
+        button { font-size: 1.05rem; padding: 12px; width: 48%; }
+        .category { font-size: 1.05rem; padding: 11px; }
+      }
+    
+      @media (min-width: 1025px) {
+        .card { font-size: 1.2rem; padding: 25px; }
+        h1 { font-size: 2rem; }
+        button { font-size: 1.1rem; padding: 12px; width: 48%; }
+        .category { font-size: 1.1rem; padding: 12px; }
+      }
     </style>
-</head>
-<body>
+    </head>
+    <body>
     <div class="game-container">
         <h1>Tic-Tac-Toe</h1>
         
@@ -422,4 +400,5 @@
         });
     </script>
 </body>
+
 </html>
